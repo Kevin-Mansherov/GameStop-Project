@@ -3,7 +3,7 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import db
 from models.user import User
-from models.book import Book
+from backend.models.games import Book
 from models.loans import Loan
 
 
