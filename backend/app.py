@@ -3,7 +3,7 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import db
 from models.user import User
-from backend.models.games import Game
+from models.games import Game
 from models.loans import Loan
 
 
@@ -15,7 +15,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # Specifies the database connection URL. In this case, it's creating a SQLite database
 # named 'library.db' in your project directory. The three slashes '///' indicate a
 # relative path from the current directory
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///GameStore.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///games.db'
 db.init_app(app)  # initializes the databsewith the flask application
 
 
@@ -49,16 +49,16 @@ def get_games():
             game_data = {                          # Create a dictionary for each book
                 'id': game.id,
                 'title': game.title,
-                'creator': game.author,
+                'creator': game.creator,
                 'year_published': game.year_published,
-                'type': game.types
+                'type': game.type
             }
             # Add the iterated book dictionary to our list
             games_list.append(game_data)
 
         return jsonify({                           # Return JSON response
             'message': 'Games retrieved successfully',
-            'books': games_list
+            'games': games_list
         }), 200
 
     except Exception as e:

@@ -17,14 +17,14 @@ async function getGames() {
         });
     } catch (error) {
         console.error('Error fetching games:', error);
-        alert('Failed to load books');
+        alert('Failed to load games');
     }
 }
 
 // function to add a new book to the database
 async function addGame() {
     const title = document.getElementById('game-title').value;
-    const creator = document.getElementById('game-author').value;
+    const creator = document.getElementById('game-creator').value;
     const year_published = document.getElementById('game-year-published').value;
     const type = document.getElementById('game-type').value;
 
@@ -38,12 +38,12 @@ async function addGame() {
         
         // Clear form fields
         document.getElementById('game-title').value = '';
-        document.getElementById('game-author').value = '';
+        document.getElementById('game-creator').value = '';
         document.getElementById('game-year-published').value = '';
         document.getElementById('game-type').value = '';
 
         // Refresh the books list
-        getBooks();
+        getGames();
         
         alert('Game added successfully!');
     } catch (error) {
