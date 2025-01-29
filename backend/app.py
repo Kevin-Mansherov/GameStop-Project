@@ -15,7 +15,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 # Specifies the database connection URL. In this case, it's creating a SQLite database
 # named 'library.db' in your project directory. The three slashes '///' indicate a
 # relative path from the current directory
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///games.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///GameStore.db'
 db.init_app(app)  # initializes the databsewith the flask application
 
 
@@ -67,6 +67,54 @@ def get_games():
             'message': str(e)
         }), 500                                    #
 
+@app.route('/users', methods=['POST'])
+def add_user():
+    data = request.json  # this is parsing the JSON data from the request body
+    new_user = User(
+        id=data['id'],
+        name=data['name'],
+        phone_number=data['phone_number'],
+        city=data['city'],
+        age=data['age'],
+        email=data['email'],
+        password=data['password']
+    )
+    db.session.add(new_user)  # add the bew book to the database session
+    db.session.commit()  # commit the session to save in the database
+    return jsonify({'message': 'User added to database.'}), 201
+
+@app.route('/users', methods=['GET'])
+def get_users():
+    try:
+        users = User.query.all()                    # Get all the books from the database
+
+        # Create empty list to store formatted book data we get from the database
+        users_list = []
+
+        for user in users:                         # Loop through each book from database
+            user_data = {                          # Create a dictionary for each book
+                'id': user.id,
+                'name': user.name,
+                'phone_number': user.phone_number,
+                'city': user.city,
+                'age': user.age,
+                'email' : user.email,
+                'password' : user.password
+
+            }
+            # Add the iterated book dictionary to our list
+            users_list.append(user_data)
+
+        return jsonify({                           # Return JSON response
+            'message': 'Users retrieved successfully',
+            'users': users_list
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            'error': 'Failed to retrieve users',
+            'message': str(e)
+        }), 500
 
 if __name__ == '__main__':
     with app.app_context():
