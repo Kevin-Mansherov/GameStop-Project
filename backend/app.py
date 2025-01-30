@@ -6,7 +6,7 @@ from models.user import User
 from models.customers import Customers
 from models.games import Game
 from models.loans import Loan
-
+import requests
 
 
 app = Flask(__name__)  # - create a flask instance
@@ -276,3 +276,16 @@ if __name__ == '__main__':
     # DONT FORGET TO ACTIVATE THE ENV FIRST:
     # /env/Scripts/activate - for windows
     # source ./env/bin/activate - - mac
+
+    url = "http://127.0.0.1:5000/users"  # ה-API שלך
+    data = {
+    "id": "123456",
+    "name": "Kevin Mansherov",
+    "email": "kevin@gmail.com",
+    "password": "Firstuser1"
+    }
+
+    response = requests.post(url, json=data)  # שליחת בקשת POST
+
+    print(response.status_code)  # 201 אם נוסף בהצלחה
+    print(response.json())  
