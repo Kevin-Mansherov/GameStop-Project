@@ -68,11 +68,27 @@ def get_games():
             'message': str(e)
         }), 500                                    #
 
-# @app.route('/games', methods=['GET'])
-# def delete_game():
+@app.route('/games', methods=['DELETE'])
+def delete_game(game_id):
+    try:
+        game = Game.query.all(game_id)
+        if not game:
+            return jsonify({
+                'error': 'Game not found',
+                'message':f'There is not game with the id {game_id}'
+            }),404
+        db.session.delete(game)
+        db.session.commit()
+        return jsonify({'message': f'Game {game_id} deleted from database.'}),200
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to delete game {game_id}',
+            'message': str(e)
+        }),500
 
-# @app.route('/games', methods=['GET'])
+# @app.route('/games', methods=['PUT'])
 # def edit_game():
+    
 
 @app.route('/users', methods=['POST'])
 def add_user():
@@ -168,7 +184,7 @@ def delete_customer(customer_id):
             return jsonify({
                 'error': 'Loan not found',
                 'message':f'There is not loan with the id {customer_id}'
-            })
+            }),404
         db.session.delete(customer)
         db.session.commit()
         return jsonify({'message': f'Customer {customer_id} deleted from database.'}),200
@@ -225,7 +241,7 @@ def delete_loan(loan_id):
             return jsonify({
                 'error': 'Loan not found',
                 'message':f'There is not loan with the id {loan_id}'
-            })
+            }),404
         db.session.delete(loan)
         db.session.commit()
         return jsonify({'message': f'Loan {loan_id} deleted from database.'}),200

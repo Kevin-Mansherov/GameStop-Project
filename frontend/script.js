@@ -60,9 +60,9 @@ async function getUsers() {
             gamesList.innerHTML += `
                 <div class="game-card">
                     <h3>${user.id}</h3>
-                    <p>Creator: ${user.name}</p>
-                    <p>Year: ${user.email}</p>
-                    <p>Type: ${user.password}}</p>
+                    <p>Name: ${user.name}</p>
+                    <p>Email: ${user.email}</p>
+                    <p>Password: ${user.password}}</p>
                 </div>
             `;
         });
@@ -71,37 +71,122 @@ async function getUsers() {
         alert('Failed to load users');
     }
 }
-async function addUser() {
-    const id = document.getElementById('user-id').value;
-    const name = document.getElementById('user-name').value;
-    const email = document.getElementById('user-email').value;
-    const password = document.getElementById('user-password').value;
+async function getCustomers(){
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/customers');
+        const gamesList = document.getElementById('customers-list');
+        gamesList.innerHTML = ''; // Clear existing list
+
+        response.data.games.forEach(customer => {
+            gamesList.innerHTML += `
+                <div class="game-card">
+                    <h3>${customer.id}</h3>
+                    <p>Name: ${customer.name}</p>
+                    <p>Phone Number: ${customer.phone_number}</p>
+                    <p>City: ${customer.city}</p>
+                    <p>Age: ${customer.age}</p>
+                    <p>Loan ID: ${customer.loan_id}</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        alert('Failed to load users');
+    }
+}
+async function addCustomer(){
+    const id = document.getElementById('customer-id').value;
+    const name = document.getElementById('customer-name').value;
+    const phone_number = document.getElementById('customer-phone-number').value;
+    const city = document.getElementById('customer-city').value;
+    const age = document.getElementById('customer-age').value;
+    const loan_id = document.getElementById('customer-loan-id').value;
 
     try {
-        await axios.post('http://127.0.0.1:5000/users', {
+        await axios.post('http://127.0.0.1:5000/customers', {
             id: id,
             name:name,
-            email:email,
-            password:password
+            phone_number: phone_number,
+            city: city,
+            age:age,
+            loan_id,loan_id
         });
         
         // Clear form fields
-        document.getElementById('user-id').value = '';
-        document.getElementById('user-name').value = '';
-        document.getElementById('user-email').value = '';
-        document.getElementById('user-password').value = '';
-
-        // Refresh the books list
+        document.getElementById('customer-id').value = '';
+        document.getElementById('customer-name').value = '';
+        document.getElementById('customer-phone-number').value = '';
+        document.getElementById('customer-city').value = '';
+        document.getElementById('customer-age').value = '';
+        document.getElementById('customer-loan-id').value = '';
         
         
-        alert('User added successfully!');
+        alert('Customer added successfully!');
     } catch (error) {
-        console.error('Error adding user:', error);
-        alert('Failed to add user');
+        console.error('Error adding customer:', error);
+        alert('Failed to add customer');
     }
 }
+async function deleteCustomer(){
+// ******************************
+}
+async function addLoan(){
+    const id = document.getElementById('loan-id').value;
+    const customer_id = document.getElementById('loan-customer-id').value;
+    const game_id = document.getElementById('loan-game-id').value;
+    const loan_date = document.getElementById('loan-loan-date').value;
+    const return_date = document.getElementById('loan-return-date').value;
 
+    try {
+        await axios.post('http://127.0.0.1:5000/loans', {
+            id:id,
+            customer_id:customer_id,
+            game_id:game_id,
+            loan_date:loan_date,
+            return_date:return_date
+        });
+        
+        // Clear form fields
+        document.getElementById('loan-id').value = '';
+        document.getElementById('loan-customer-id').value = '';
+        document.getElementById('loan-game-id').value = '';
+        document.getElementById('loan-loan-date').value = '';
+        document.getElementById('loan-return-date').value = '';
 
+        // Refresh the books list
+        getLoans()
+        
+        alert('Loan added successfully!');
+    } catch (error) {
+        console.error('Error adding loan:', error);
+        alert('Failed to add loan');
+    }
+}
+async function getLoans(){
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/loans');
+        const loansList = document.getElementById('loans-list');
+        loansList.innerHTML = ''; // Clear existing list
+
+        response.data.games.forEach(loan => {
+            loansList.innerHTML += `
+                <div class="loan-card">
+                    <h3>${loansList.id}</h3>
+                    <p>Customer ID: ${loan.customer_id}</p>
+                    <p>Game ID: ${loan.game_id}</p>
+                    <p>Loan date: ${loan.loan_date}</p>
+                    <p>Return date: ${loan.return_date}</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error('Error fetching loans:', error);
+        alert('Failed to load loans');
+    }
+}
+async function deleteLoan(){
+// *****************************
+}
 
 
 
