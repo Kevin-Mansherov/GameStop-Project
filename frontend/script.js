@@ -20,7 +20,6 @@ async function getGames() {
         alert('Failed to load games');
     }
 }
-
 // function to add a new book to the database
 async function addGame() {
     const title = document.getElementById('game-title').value;
@@ -51,6 +50,60 @@ async function addGame() {
         alert('Failed to add game');
     }
 }
+async function getUsers() {
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/users');
+        const gamesList = document.getElementById('users-list');
+        gamesList.innerHTML = ''; // Clear existing list
+
+        response.data.games.forEach(user => {
+            gamesList.innerHTML += `
+                <div class="game-card">
+                    <h3>${user.id}</h3>
+                    <p>Creator: ${user.name}</p>
+                    <p>Year: ${user.email}</p>
+                    <p>Type: ${user.password}}</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        alert('Failed to load users');
+    }
+}
+async function addUser() {
+    const id = document.getElementById('user-id').value;
+    const name = document.getElementById('user-name').value;
+    const email = document.getElementById('user-email').value;
+    const password = document.getElementById('user-password').value;
+
+    try {
+        await axios.post('http://127.0.0.1:5000/users', {
+            id: id,
+            name:name,
+            email:email,
+            password:password
+        });
+        
+        // Clear form fields
+        document.getElementById('user-id').value = '';
+        document.getElementById('user-name').value = '';
+        document.getElementById('user-email').value = '';
+        document.getElementById('user-password').value = '';
+
+        // Refresh the books list
+        
+        
+        alert('User added successfully!');
+    } catch (error) {
+        console.error('Error adding user:', error);
+        alert('Failed to add user');
+    }
+}
+
+
+
+
 
 // Load all books when page loads
 document.addEventListener('DOMContentLoaded', getGames);
