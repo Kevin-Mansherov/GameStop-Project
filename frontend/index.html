@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -40,6 +40,86 @@
 
           <h2>Loaned Games</h2>
           <div id="loaned-Games-list" class="games-grid"></div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="script.js"></script>
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Store Management System</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="auth-section">
+        <h2>Authentication</h2>
+        <div id="login-form">
+          <input type="text" id="username" placeholder="Username" />
+          <input type="password" id="password" placeholder="Password" />
+          <button onclick="login()">Login</button>
+          <button onclick="register()">Register</button>
+        </div>
+      </div>
+
+      <div id="main-section" class="hidden">
+        <div class="header">
+          <h1>Game Store Management System</h1>
+          <button onclick="logout()">Logout</button>
+        </div>
+
+        <div class="games-section">
+          <h2>Add New Game</h2>
+          <div class="form-group">
+            <input type="text" id="game-title" placeholder="Title" />
+            <input type="text" id="game-creator" placeholder="Creator" />
+            <input type="text" id="game-year-published" placeholder="Year Published" />
+            <input type="text" id="game-type" placeholder="Type" />
+            <button onclick="addGame()">Add Game</button>
+          </div>
+
+          <h2>All Games</h2>
+          <div id="games-list" class="games-grid"></div>
+
+          <h2>Loaned Games</h2>
+          <div id="loaned-games-list" class="games-grid"></div>
+        </div>
+
+        <div class="customers-section">
+          <h2>Manage Customers</h2>
+          <div class="form-group">
+            <input type="text" id="customer-id" placeholder="Customer ID" />
+            <input type="text" id="customer-name" placeholder="Name" />
+            <input type="text" id="customer-phone-number" placeholder="Phone Number" />
+            <input type="text" id="customer-city" placeholder="City" />
+            <input type="text" id="customer-age" placeholder="Age" />
+            <input type="text" id="customer-loan-id" placeholder="Loan ID" />
+            <button onclick="addCustomer()">Add Customer</button>
+            <input type="text" id="customer-id" placeholder="Customer ID" />
+            <button onclick="deleteCustomer()">Delete Customer</button>
+          </div>
+          <div id="customers-list" class="customers-grid"></div>
+        </div>
+
+        <div class="loans-section">
+          <h2>Manage Loans</h2>
+          <div class="form-group">
+            <input type="text" id="loan-id" placeholder="Loan ID" />
+            <input type="text" id="loan-customer-id" placeholder="Customer ID" />
+            <input type="text" id="loan-game-id" placeholder="Game ID" />
+            <input type="text" id="loan-loan-date" placeholder="Loan Date" />
+            <input type="text" id="loan-return-date" placeholder="Return Date" />
+            <button onclick="addLoan()">Add Loan</button>
+            <input type="text" id="loan-id" placeholder="Loan ID" />
+            <button onclick="deleteLoan()">Delete Loan</button>
+          </div>
+          <div id="loans-list" class="loans-grid"></div>
         </div>
       </div>
     </div>
