@@ -93,8 +93,8 @@ def delete_game(game_id):
 @app.route('/users', methods=['POST'])
 def add_user():
     data = request.json  # this is parsing the JSON data from the request body
+    print("Received data:", data)
     new_user = User(
-        id=data['id'],
         name=data['name'],
         email=data['email'],
         password=data['password']
@@ -255,6 +255,16 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Create all database tables defined in your  models(check the models folder)
 
+#***add data to the users api
+    # with app.test_client() as test_client:
+    #         response = test_client.post('/users', json={
+    #             "name": "Kevin Mansherov",
+    #             "email": "kevin@gmail.com",
+    #             "password": "Firstuser1"
+    #         })
+    #         print(response.status_code)
+    #         print(response.get_json())
+
     # with app.test_client() as test:
     #     response = test.post('/books', json={  # Make a POST request to /books endpoint with book  data
     #         'title': 'Harry Potter',
@@ -276,16 +286,3 @@ if __name__ == '__main__':
     # DONT FORGET TO ACTIVATE THE ENV FIRST:
     # /env/Scripts/activate - for windows
     # source ./env/bin/activate - - mac
-
-    url = "http://127.0.0.1:5000/users"  # ה-API שלך
-    data = {
-    "id": "123456",
-    "name": "Kevin Mansherov",
-    "email": "kevin@gmail.com",
-    "password": "Firstuser1"
-    }
-
-    response = requests.post(url, json=data)  # שליחת בקשת POST
-
-    print(response.status_code)  # 201 אם נוסף בהצלחה
-    print(response.json())  
