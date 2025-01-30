@@ -4,6 +4,7 @@ from . import db
 
 
 class Game(db.Model):
+    __tablename__ = 'games'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     creator = db.Column(db.String(200), nullable=False)

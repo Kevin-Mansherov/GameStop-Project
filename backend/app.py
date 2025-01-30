@@ -3,9 +3,10 @@ from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import db
 from models.user import User
-from models.games import Game
 from models.customers import Customers
+from models.games import Game
 from models.loans import Loan
+
 
 
 app = Flask(__name__)  # - create a flask instance
@@ -118,7 +119,7 @@ def get_users():
 @app.route('/customers', methods=['POST'])
 def add_customer():
     data = request.json  # this is parsing the JSON data from the request body
-    new_customer = User(
+    new_customer = Customers(
         id=data['id'],
         name=data['name'],
         phone_number=data['phone_number'],
