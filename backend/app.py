@@ -160,8 +160,24 @@ def get_customers():
             'message': str(e)
         }), 500
 
-# @app.route('/customers', methods=['GET'])
-# def delete_customer():
+@app.route('/customers', methods=['DELETE'])
+def delete_customer(customer_id):
+    try:
+        customer = Customers.query.all(customer_id)
+        if not customer:
+            return jsonify({
+                'error': 'Loan not found',
+                'message':f'There is not loan with the id {customer_id}'
+            })
+        db.session.delete(customer)
+        db.session.commit()
+        return jsonify({'message': f'Customer {customer_id} deleted from database.'}),200
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to delete customer {customer_id}',
+            'message': str(e)
+        }),500
+
 
 @app.route('/loans', methods=['POST'])
 def add_loan():
@@ -190,7 +206,7 @@ def get_loans():
                 'loan_date': loan.loan_date,
                 'return_date': loan.return_date
             }
-        loans_list.append(loan_data)
+            loans_list.append(loan_data)
         return jsonify({                           # Return JSON response
             'message': 'Loans retrieved successfully',
             'users': loans_list
@@ -201,9 +217,23 @@ def get_loans():
             'message': str(e)
         }), 500
 
-# @app.route('/loans', methods=['GET'])
-# def delete_loan():
-
+@app.route('/loans', methods=['DELETE'])
+def delete_loan(loan_id):
+    try:
+        loan = Loan.query.all(loan_id)
+        if not loan:
+            return jsonify({
+                'error': 'Loan not found',
+                'message':f'There is not loan with the id {loan_id}'
+            })
+        db.session.delete(loan)
+        db.session.commit()
+        return jsonify({'message': f'Loan {loan_id} deleted from database.'}),200
+    except Exception as e:
+        return jsonify({
+            'error': f'Failed to delete loan {loan_id}',
+            'message': str(e)
+        }),500
 
 if __name__ == '__main__':
     with app.app_context():
