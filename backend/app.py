@@ -252,8 +252,8 @@ def delete_loan(loan_id):
         }),500
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()  # Create all database tables defined in your  models(check the models folder)
+    # with app.app_context():
+    #     db.create_all()  # Create all database tables defined in your  models(check the models folder)
 
 #***add data to the users api
     # with app.test_client() as test_client:

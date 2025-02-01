@@ -187,7 +187,7 @@ async function getLoans(){
 async function deleteLoan(){
 // *****************************
 }
-
+async function login(){}
 
 
 // Load all books when page loads
