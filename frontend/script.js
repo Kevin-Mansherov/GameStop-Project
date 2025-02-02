@@ -12,6 +12,8 @@ async function getGames() {
                     <p>Creator: ${game.creator}</p>
                     <p>Year: ${game.year_published}</p>
                     <p>Type: ${game.type}</p>
+                    <p>Price: ${game.price}</p>
+                    <p>Available: ${game.available}</p>
                 </div>
             `;
         });
@@ -26,13 +28,17 @@ async function addGame() {
     const creator = document.getElementById('game-creator').value;
     const year_published = document.getElementById('game-year-published').value;
     const type = document.getElementById('game-type').value;
+    const price = document.getElementById('game-price').value;
+    const available = document.getElementById('game-available').value;
 
     try {
         await axios.post('http://127.0.0.1:5000/games', {
             title: title,
             creator: creator,
             year_published: year_published,
-            type: type
+            type: type,
+            price:price,
+            available:available
         });
         
         // Clear form fields
@@ -40,6 +46,8 @@ async function addGame() {
         document.getElementById('game-creator').value = '';
         document.getElementById('game-year-published').value = '';
         document.getElementById('game-type').value = '';
+        document.getElementById('game-price').value = '';
+        document.getElementById('game-available').value = '';
 
         // Refresh the books list
         getGames();
@@ -188,19 +196,36 @@ async function deleteLoan(){
 // *****************************
 }
 async function login(){
-    const email = document.getElementById('user-email');
-    const password = document.getElementById('user-password');
+    const emailInput = document.getElementById('email').value;
+    const passwordInput = document.getElementById('password').value;
 
-    const response = await axios.get('http://127.0.0.1:5000/users',(email,password)).then(response=>{
-        if(response.data.success){
-            
+    axios.post('http://127.0.0.1:5000/login',{
+        email:emailInput,
+        password:passwordInput
+    },{
+        Headers:{
+            "Content-Type":"application/json"
         }
     })
-    // response.data.users.forEach(user=>{
-    //     if(user.email == )
-    // })
+    .then(response=>{
+        alert(response.data.message);
+        document.getElementById("auth-section").classList.add("hidden");
+        document.getElementById("main-section").classList.remove("hidden");
+    })
+    .catch(error=>{
+        alert(error.response.data.error);
+    })
 }
-
+async function logout(){
+    axios.post('http://127.0.0.1:5000/logout').then(response=>{
+        alert(response.data.message);
+        document.getElementById("auth-section").classList.remove("hidden");
+        document.getElementById("main-section").classList.add("hidden");
+    })
+    .catch(error=>{
+        alert('Failed to logout: ' + error.response.data.error);
+    })
+}
 
 // Load all books when page loads
 document.addEventListener('DOMContentLoaded', getGames);

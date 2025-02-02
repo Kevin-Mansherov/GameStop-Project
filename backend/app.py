@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,session
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import db
@@ -12,7 +12,7 @@ import requests
 app = Flask(__name__)  # - create a flask instance
 # - enable all routes, allow requests from anywhere (optional - not recommended for security)
 CORS(app, resources={r"/*": {"origins": "*"}})
-
+app.secret_key = "superSecretKey"
 
 # Specifies the database connection URL. In this case, it's creating a SQLite database
 # named 'library.db' in your project directory. The three slashes '///' indicate a
@@ -30,8 +30,10 @@ def add_game():
         creator=data['creator'],  # Set the author of the new book.
         year_published=data['year_published'],
         # Set the types(fantasy, thriller, etc...) of the new book.
-        type=data['type']
+        type=data['type'],
         # add other if needed...
+        price=data['price'],
+        available=data['available']
     )
     db.session.add(new_game)  # add the bew book to the database session
     db.session.commit()  # commit the session to save in the database
@@ -52,7 +54,9 @@ def get_games():
                 'title': game.title,
                 'creator': game.creator,
                 'year_published': game.year_published,
-                'type': game.type
+                'type': game.type,
+                'price':game.price,
+                'available':game.available
             }
             # Add the iterated book dictionary to our list
             games_list.append(game_data)
@@ -194,7 +198,6 @@ def delete_customer(customer_id):
             'message': str(e)
         }),500
 
-
 @app.route('/loans', methods=['POST'])
 def add_loan():
     data = request.json
@@ -251,8 +254,30 @@ def delete_loan(loan_id):
             'message': str(e)
         }),500
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.json
+    user_email = data['email']
+    user_password = data['password']
+    user = User.query.filter_by(email = user_email,password = user_password).first()
+    if user:
+        session['email'] = user_email
+        return jsonify({'message':'Login successful'}),200
+    else:
+        return jsonify({'error': 'Invalid email or password.'}),401
+
+@app.route('/logout', methods=['POST']) 
+def logout():
+    try:
+        session.pop('email',None)
+        return jsonify({'message': 'You are logout.'}),200
+    except Exception as e:
+        return jsonify({'error': 'Logout failed:','message': str(e)})
+
+
 if __name__ == '__main__':
     # with app.app_context():
+    #     db.drop_all()
     #     db.create_all()  # Create all database tables defined in your  models(check the models folder)
 
 #***add data to the users api

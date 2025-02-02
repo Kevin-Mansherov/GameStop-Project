@@ -10,3 +10,5 @@ class Game(db.Model):
     creator = db.Column(db.String(200), nullable=False)
     year_published = db.Column(db.Integer, nullable=False)
     type = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Integer,nullable=False)
+    available = db.Column(db.Integer,nullable=False)
