@@ -73,20 +73,20 @@ def get_games():
         }), 500                                    #
 
 @app.route('/games', methods=['DELETE'])
-def delete_game(game_id):
+def delete_game(game_title):
     try:
-        game = Game.query.all(game_id)
+        game = Game.query.filter_by(title = game_title)
         if not game:
             return jsonify({
                 'error': 'Game not found',
-                'message':f'There is not game with the id {game_id}'
+                'message':f'There is not game called {game_title}'
             }),404
         db.session.delete(game)
         db.session.commit()
-        return jsonify({'message': f'Game {game_id} deleted from database.'}),200
+        return jsonify({'message': f'{game_title} deleted from database.'}),200
     except Exception as e:
         return jsonify({
-            'error': f'Failed to delete game {game_id}',
+            'error': f'Failed to delete game {game_title}',
             'message': str(e)
         }),500
 

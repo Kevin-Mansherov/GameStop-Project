@@ -29,7 +29,7 @@ async function addGame() {
     const year_published = document.getElementById('game-year-published').value;
     const type = document.getElementById('game-type').value;
     const price = document.getElementById('game-price').value;
-    const available = document.getElementById('game-available').value;
+    const available = document.getElementById('amount-to-add').value;
 
     try {
         await axios.post('http://127.0.0.1:5000/games', {
@@ -47,7 +47,7 @@ async function addGame() {
         document.getElementById('game-year-published').value = '';
         document.getElementById('game-type').value = '';
         document.getElementById('game-price').value = '';
-        document.getElementById('game-available').value = '';
+        document.getElementById('amount-to-add').value = '';
 
         // Refresh the books list
         getGames();
@@ -57,6 +57,9 @@ async function addGame() {
         console.error('Error adding game:', error);
         alert('Failed to add game');
     }
+}
+async function deleteGame() {
+//******************************************* */
 }
 async function getUsers() {
     try {
@@ -128,7 +131,7 @@ async function addCustomer(){
         document.getElementById('customer-age').value = '';
         document.getElementById('customer-loan-id').value = '';
         
-        
+        getCustomers();
         alert('Customer added successfully!');
     } catch (error) {
         console.error('Error adding customer:', error);
@@ -138,6 +141,29 @@ async function addCustomer(){
 async function deleteCustomer(){
 // ******************************
 }
+async function getLoans(){
+    try {
+        const response = await axios.get('http://127.0.0.1:5000/loans');
+        const loansList = document.getElementById('loans-list');
+        loansList.innerHTML = ''; // Clear existing list
+
+        response.data.games.forEach(loan => {
+            loansList.innerHTML += `
+                <div class="loan-card">
+                    <h3>${loansList.id}</h3>
+                    <p>Customer ID: ${loan.customer_id}</p>
+                    <p>Game ID: ${loan.game_id}</p>
+                    <p>Loan date: ${loan.loan_date}</p>
+                    <p>Return date: ${loan.return_date}</p>
+                </div>
+            `;
+        });
+    } catch (error) {
+        console.error('Error fetching loans:', error);
+        alert('Failed to load loans');
+    }
+}
+
 async function addLoan(){
     const id = document.getElementById('loan-id').value;
     const customer_id = document.getElementById('loan-customer-id').value;
@@ -170,28 +196,7 @@ async function addLoan(){
         alert('Failed to add loan');
     }
 }
-async function getLoans(){
-    try {
-        const response = await axios.get('http://127.0.0.1:5000/loans');
-        const loansList = document.getElementById('loans-list');
-        loansList.innerHTML = ''; // Clear existing list
 
-        response.data.games.forEach(loan => {
-            loansList.innerHTML += `
-                <div class="loan-card">
-                    <h3>${loansList.id}</h3>
-                    <p>Customer ID: ${loan.customer_id}</p>
-                    <p>Game ID: ${loan.game_id}</p>
-                    <p>Loan date: ${loan.loan_date}</p>
-                    <p>Return date: ${loan.return_date}</p>
-                </div>
-            `;
-        });
-    } catch (error) {
-        console.error('Error fetching loans:', error);
-        alert('Failed to load loans');
-    }
-}
 async function deleteLoan(){
 // *****************************
 }
