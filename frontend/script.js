@@ -187,7 +187,19 @@ async function getLoans(){
 async function deleteLoan(){
 // *****************************
 }
-async function login(){}
+async function login(){
+    const email = document.getElementById('user-email');
+    const password = document.getElementById('user-password');
+
+    const response = await axios.get('http://127.0.0.1:5000/users',(email,password)).then(response=>{
+        if(response.data.success){
+            
+        }
+    })
+    // response.data.users.forEach(user=>{
+    //     if(user.email == )
+    // })
+}
 
 
 // Load all books when page loads
