@@ -72,21 +72,21 @@ def get_games():
             'message': str(e)
         }), 500                                    #
 
-@app.route('/games', methods=['DELETE'])
-def delete_game(game_title):
+@app.route('/games/<int:game_id>', methods=['DELETE'])
+def delete_game(game_id):
     try:
-        game = Game.query.filter_by(title = game_title)
+        game = Game.query.get(game_id)
         if not game:
             return jsonify({
                 'error': 'Game not found',
-                'message':f'There is not game called {game_title}'
+                'message':f'There is not game called {game_id}'
             }),404
         db.session.delete(game)
         db.session.commit()
-        return jsonify({'message': f'{game_title} deleted from database.'}),200
+        return jsonify({'message': f'{game_id} deleted from database.'}),200
     except Exception as e:
         return jsonify({
-            'error': f'Failed to delete game {game_title}',
+            'error': f'Failed to delete game {game_id}',
             'message': str(e)
         }),500
 
@@ -261,18 +261,13 @@ def login():
     user_password = data['password']
     user = User.query.filter_by(email = user_email,password = user_password).first()
     if user:
-        session['email'] = user_email
         return jsonify({'message':'Login successful'}),200
     else:
         return jsonify({'error': 'Invalid email or password.'}),401
 
 @app.route('/logout', methods=['POST']) 
 def logout():
-    try:
-        session.pop('email',None)
-        return jsonify({'message': 'You are logout.'}),200
-    except Exception as e:
-        return jsonify({'error': 'Logout failed:','message': str(e)})
+    return jsonify({'message': 'You are logout.'}),200
 
 
 if __name__ == '__main__':

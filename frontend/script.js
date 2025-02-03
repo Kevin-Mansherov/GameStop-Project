@@ -14,6 +14,7 @@ async function getGames() {
                     <p>Type: ${game.type}</p>
                     <p>Price: ${game.price}</p>
                     <p>Available: ${game.available}</p>
+                    <button type="button" onclick="deleteGame(${game.id})">Delete Game</button>
                 </div>
             `;
         });
@@ -23,7 +24,8 @@ async function getGames() {
     }
 }
 // function to add a new book to the database
-async function addGame() {
+async function addGame() 
+{
     const title = document.getElementById('game-title').value;
     const creator = document.getElementById('game-creator').value;
     const year_published = document.getElementById('game-year-published').value;
@@ -58,8 +60,18 @@ async function addGame() {
         alert('Failed to add game');
     }
 }
-async function deleteGame() {
-//******************************************* */
+async function deleteGame(game_id) {
+    try{
+        const confirmed = confirm("You sure you want to delete this game???");
+        if(!confirmed) return;
+        await axios.delete(`http://127.0.0.1:5000/games/${game_id}`);
+        alert(response.data.message)
+        getGames();
+    }
+    catch(error){
+        console.error('Error trying to delete: ', error);
+        alert(error.response.data.error);
+    }
 }
 async function getUsers() {
     try {
@@ -213,6 +225,7 @@ async function login(){
         }
     })
     .then(response=>{
+        localStorage.setItem('isLoggedIn','true');
         alert(response.data.message);
         document.getElementById("auth-section").classList.add("hidden");
         document.getElementById("main-section").classList.remove("hidden");
@@ -222,15 +235,23 @@ async function login(){
     })
 }
 async function logout(){
-    axios.post('http://127.0.0.1:5000/logout').then(response=>{
-        alert(response.data.message);
+    localStorage.removeItem('isLoggedIn');
+    document.getElementById("auth-section").classList.remove("hidden");
+    document.getElementById("main-section").classList.add("hidden");
+    alert(response.data.message);
+}
+function checkIfLoggedIn(){
+    const isLoggedIn = localStorage.getItem('isLoggedIn');
+    if(isLoggedIn == 'true'){
+        document.getElementById("auth-section").classList.add("hidden");
+        document.getElementById("main-section").classList.remove("hidden");
+        getGames();
+    }
+    else{
         document.getElementById("auth-section").classList.remove("hidden");
         document.getElementById("main-section").classList.add("hidden");
-    })
-    .catch(error=>{
-        alert('Failed to logout: ' + error.response.data.error);
-    })
+    }
 }
-
+window.onload = checkIfLoggedIn;
 // Load all books when page loads
 document.addEventListener('DOMContentLoaded', getGames);
