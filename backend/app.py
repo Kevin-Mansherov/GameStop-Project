@@ -144,7 +144,8 @@ def add_customer():
         name=data['name'],
         phone_number=data['phone_number'],
         city=data['city'],
-        age=data['age']
+        age=data['age'],
+        loan_id=data['loan_id']
     )
     db.session.add(new_customer)  # add the bew book to the database session
     db.session.commit()  # commit the session to save in the database

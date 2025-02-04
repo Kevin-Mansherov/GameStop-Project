@@ -114,7 +114,7 @@ async function getCustomers(){
         });
     } catch (error) {
         console.error('Error fetching users:', error);
-        alert('Failed to load users');
+        alert('Failed to load customers');
     }
 }
 async function addCustomer(){
