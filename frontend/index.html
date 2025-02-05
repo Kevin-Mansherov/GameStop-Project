@@ -23,7 +23,7 @@
           <button onclick="logout()">Logout</button>
         </div>
 
-        <div class="games-section">
+        <div class="games-section"> <!--need to change it to general section-->
           <h2>Add New Game</h2>
           <div class="form-group">
             <input type="text" id="game-title" placeholder="Title" />
@@ -42,8 +42,8 @@
           <div id="loaned-games-list" class="games-grid"></div>
         </div>
 
-        <div class="customers-section">
-          <h2>Manage Customers</h2>
+        <div class="games-section"> <!-- need to change it to customers-section -->
+          <h2>Add new customer</h2>
           <div class="form-group">
             <input type="text" id="customer-id" placeholder="Customer ID" />
             <input type="text" id="customer-name" placeholder="Name" />
@@ -55,7 +55,8 @@
             <input type="text" id="customer-id" placeholder="Customer ID" />
             <button onclick="deleteCustomer()">Delete Customer</button>
           </div>
-          <div id="customers-list" class="customers-grid"></div>
+          <h2>Customers List</h2>
+          <div id="customers-list" class="games-grid"></div>
         </div>
 
         <div class="loans-section">

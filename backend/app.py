@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify,session
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime, timedelta
 from models import db
@@ -6,7 +6,6 @@ from models.user import User
 from models.customers import Customers
 from models.games import Game
 from models.loans import Loan
-import requests
 
 
 app = Flask(__name__)  # - create a flask instance
@@ -165,14 +164,15 @@ def get_customers():
                 'name': customer.name,
                 'phone_number': customer.phone_number,
                 'city': customer.city,
-                'age': customer.age
+                'age': customer.age,
+                'loan_id': customer.loan_id
             }
             # Add the iterated book dictionary to our list
             customers_list.append(user_data)
 
         return jsonify({                           # Return JSON response
             'message': 'Customers retrieved successfully',
-            'users': customers_list
+            'customers': customers_list
         }), 200
 
     except Exception as e:

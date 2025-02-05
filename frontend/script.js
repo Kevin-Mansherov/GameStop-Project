@@ -97,11 +97,11 @@ async function getUsers() {
 async function getCustomers(){
     try {
         const response = await axios.get('http://127.0.0.1:5000/customers');
-        const gamesList = document.getElementById('customers-list');
-        gamesList.innerHTML = ''; // Clear existing list
+        const customersList = document.getElementById('customers-list');
+        customersList.innerHTML = ''; // Clear existing list
 
-        response.data.games.forEach(customer => {
-            gamesList.innerHTML += `
+        response.data.customers.forEach(customer => {
+            customersList.innerHTML += `
                 <div class="game-card">
                     <h3>${customer.id}</h3>
                     <p>Name: ${customer.name}</p>
@@ -113,8 +113,7 @@ async function getCustomers(){
             `;
         });
     } catch (error) {
-        console.error('Error fetching users:', error);
-        alert('Failed to load customers');
+        alert(error.response.data.error);
     }
 }
 async function addCustomer(){
@@ -171,8 +170,7 @@ async function getLoans(){
             `;
         });
     } catch (error) {
-        console.error('Error fetching loans:', error);
-        alert('Failed to load loans');
+        alert(error.response.data.error);
     }
 }
 
@@ -252,6 +250,9 @@ function checkIfLoggedIn(){
         document.getElementById("main-section").classList.add("hidden");
     }
 }
-window.onload = checkIfLoggedIn;
-// Load all books when page loads
+window.onload = ()=>{
+    checkIfLoggedIn();
+    getCustomers();
+}
+    // Load all books when page loads
 document.addEventListener('DOMContentLoaded', getGames);
