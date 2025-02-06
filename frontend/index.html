@@ -56,7 +56,7 @@
           <div id="customers-list" class="games-grid"></div>
         </div>
 
-        <div class="games-section">
+        <div class="games-section"><!-- need to change it to loans-section -->
           <h2>Manage Loans</h2>
           <div class="form-group">
             <input type="text" id="loan-id" placeholder="Loan ID" />
@@ -65,11 +65,29 @@
             <input type="text" id="loan-loan-date" placeholder="Loan Date" />
             <input type="text" id="loan-return-date" placeholder="Return Date" />
             <button onclick="addLoan()">Add Loan</button>
-            <input type="text" id="loan-id" placeholder="Loan ID" />
-            <button onclick="deleteLoan()">Delete Loan</button>
           </div>
           <h2>Loans</h2>
           <div id="loans-list" class="games-grid"></div>
+        </div>
+      </div>
+      <div id="edit-section"><!--make a css style to this-->
+        <div id="edit-game" class="hidden">
+          <h2>Edit Game</h2>
+          <input type="text" id="game-title" placeholder="Title" />
+          <input type="text" id="game-creator" placeholder="Creator" />
+          <input type="text" id="game-year-published" placeholder="Year Published" />
+          <input type="text" id="game-type" placeholder="Type" />
+          <input type="text" id="game-price" placeholder="Price"/>
+          <button type="button" onclick="editGame()">Save Changes</button>
+        </div>
+        <div id="edit-customer" class="hidden">
+          <h2>Edit Customer Info</h2>
+          <input type="text" id="customer-id" placeholder="Customer ID" />
+          <input type="text" id="customer-name" placeholder="Name" />
+          <input type="text" id="customer-phone-number" placeholder="Phone Number" />
+          <input type="text" id="customer-city" placeholder="City" />
+          <input type="text" id="customer-age" placeholder="Age" />
+          <button type="button" onclick="editCustomer()">Save Changes</button>
         </div>
       </div>
     </div>

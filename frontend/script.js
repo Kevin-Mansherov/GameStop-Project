@@ -15,6 +15,7 @@ async function getGames() {
                     <p>Price: ${game.price}</p>
                     <p>Available: ${game.available}</p>
                     <button type="button" onclick="deleteGame(${game.id})">Delete Game</button>
+                    <button type="button" onclick="editGame(${game.id})">Edit Game</button>
                 </div>
             `;
         });
@@ -70,6 +71,19 @@ async function deleteGame(game_id) {
     }
     catch(error){
         console.error('Error trying to delete: ', error);
+        alert(error.response.data.error);
+    }
+}
+async function editGame(game_id) {
+    try{
+        const confirmed = confirm("You sure you want to make this changes?");
+        if(!confirmed) return;
+        await axios.put(`http://127.0.0.1:5000/games/${game_id}`);
+        alert(response.data.message)
+        getGames();
+    }
+    catch(error){
+        console.error('Error trying to edit: ', error);
         alert(error.response.data.error);
     }
 }
@@ -219,7 +233,7 @@ async function deleteLoan(loan_id){
     try{
         const confirmed = confirm("You sure you want to delete this loan???");
         if(!confirmed) return;
-        await axios.delete(`http://127.0.0.1:5000/customers/${loan_id}`);
+        await axios.delete(`http://127.0.0.1:5000/loans/${loan_id}`);
         alert(response.data.message)
         getLoans();
     }

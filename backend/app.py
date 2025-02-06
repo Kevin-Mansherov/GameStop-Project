@@ -89,8 +89,23 @@ def delete_game(game_id):
             'message': str(e)
         }),500
 
-# @app.route('/games', methods=['PUT'])
-# def edit_game():
+@app.route('/games/<int:game_id>', methods=['PUT'])
+def edit_game(game_id):
+    data = request.json
+    game = Game.query.get(game_id)
+    if data['title'] != None:
+        game.title = data['title']
+    elif data['creator'] != None:
+        game.creator = data['creator']
+    elif data['year_published'] != None:
+        game.year_published = data['year_published']
+    elif data['type'] != None:
+        game.type = data['type']
+    elif data['price'] != None:
+        game.price = data['price']
+    
+    db.session.refresh(game)
+    return jsonify({'message': 'Changes saved successfully.'}),201
     
 
 @app.route('/users', methods=['POST'])
@@ -184,10 +199,8 @@ def delete_customer(customer_id):
     try:
         customer = Customers.query.get(customer_id)
         if not customer:
-            return jsonify({
-                'error': 'Loan not found',
-                'message':f'There is not loan with the id {customer_id}'
-            }),404
+            return jsonify({'error': 'Loan not found','message':f'There is not loan with the id {customer_id}'}),404
+        
         db.session.delete(customer)
         db.session.commit()
         return jsonify({'message': f'Customer {customer_id} deleted from database.'}),200
