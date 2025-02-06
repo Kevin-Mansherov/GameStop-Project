@@ -108,7 +108,7 @@ async function getCustomers(){
                     <p>Phone Number: ${customer.phone_number}</p>
                     <p>City: ${customer.city}</p>
                     <p>Age: ${customer.age}</p>
-                    <p>Loan ID: ${customer.loan_id}</p>
+                    <button type="button" onclick="deleteCustomer(${customer.id})">Delete Customer</button>
                 </div>
             `;
         });
@@ -122,7 +122,6 @@ async function addCustomer(){
     const phone_number = document.getElementById('customer-phone-number').value;
     const city = document.getElementById('customer-city').value;
     const age = document.getElementById('customer-age').value;
-    const loan_id = document.getElementById('customer-loan-id').value;
 
     try {
         await axios.post('http://127.0.0.1:5000/customers', {
@@ -130,8 +129,7 @@ async function addCustomer(){
             name:name,
             phone_number: phone_number,
             city: city,
-            age:age,
-            loan_id,loan_id
+            age:age
         });
         
         // Clear form fields
@@ -140,7 +138,6 @@ async function addCustomer(){
         document.getElementById('customer-phone-number').value = '';
         document.getElementById('customer-city').value = '';
         document.getElementById('customer-age').value = '';
-        document.getElementById('customer-loan-id').value = '';
         
         getCustomers();
         alert('Customer added successfully!');
@@ -149,8 +146,18 @@ async function addCustomer(){
         alert('Failed to add customer');
     }
 }
-async function deleteCustomer(){
-// ******************************
+async function deleteCustomer(customer_id){
+    try{
+        const confirmed = confirm("You sure you want to delete this Customer???");
+        if(!confirmed) return;
+        await axios.delete(`http://127.0.0.1:5000/customers/${customer_id}`);
+        alert(response.data.message)
+        getCustomers();
+    }
+    catch(error){
+        console.error('Error trying to delete: ', error);
+        alert(error.response.data.error);
+    }
 }
 async function getLoans(){
     try {
@@ -161,7 +168,7 @@ async function getLoans(){
         response.data.games.forEach(loan => {
             loansList.innerHTML += `
                 <div class="loan-card">
-                    <h3>${loansList.id}</h3>
+                    <h3>${loan.id}</h3>
                     <p>Customer ID: ${loan.customer_id}</p>
                     <p>Game ID: ${loan.game_id}</p>
                     <p>Loan date: ${loan.loan_date}</p>

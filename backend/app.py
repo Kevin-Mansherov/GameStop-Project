@@ -143,8 +143,7 @@ def add_customer():
         name=data['name'],
         phone_number=data['phone_number'],
         city=data['city'],
-        age=data['age'],
-        loan_id=data['loan_id']
+        age=data['age']
     )
     db.session.add(new_customer)  # add the bew book to the database session
     db.session.commit()  # commit the session to save in the database
@@ -164,8 +163,7 @@ def get_customers():
                 'name': customer.name,
                 'phone_number': customer.phone_number,
                 'city': customer.city,
-                'age': customer.age,
-                'loan_id': customer.loan_id
+                'age': customer.age
             }
             # Add the iterated book dictionary to our list
             customers_list.append(user_data)
@@ -181,10 +179,10 @@ def get_customers():
             'message': str(e)
         }), 500
 
-@app.route('/customers', methods=['DELETE'])
+@app.route('/customers/<int:customer_id>', methods=['DELETE'])
 def delete_customer(customer_id):
     try:
-        customer = Customers.query.all(customer_id)
+        customer = Customers.query.get(customer_id)
         if not customer:
             return jsonify({
                 'error': 'Loan not found',
@@ -272,19 +270,19 @@ def logout():
 
 
 if __name__ == '__main__':
-    # with app.app_context():
-    #     db.drop_all()
-    #     db.create_all()  # Create all database tables defined in your  models(check the models folder)
+#     with app.app_context():
+#         db.drop_all()
+#         db.create_all()  # Create all database tables defined in your  models(check the models folder)
 
-#***add data to the users api
-    # with app.test_client() as test_client:
-    #         response = test_client.post('/users', json={
-    #             "name": "Kevin Mansherov",
-    #             "email": "kevin@gmail.com",
-    #             "password": "Firstuser1"
-    #         })
-    #         print(response.status_code)
-    #         print(response.get_json())
+# # ***add data to the users api
+#     with app.test_client() as test_client:
+#             response = test_client.post('/users', json={
+#                 "name": "Kevin Mansherov",
+#                 "email": "kevin@gmail.com",
+#                 "password": "123"
+#             })
+#             print(response.status_code)
+#             print(response.get_json())
 
     # with app.test_client() as test:
     #     response = test.post('/books', json={  # Make a POST request to /books endpoint with book  data
