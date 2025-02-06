@@ -79,7 +79,7 @@ async function getUsers() {
         const gamesList = document.getElementById('users-list');
         gamesList.innerHTML = ''; // Clear existing list
 
-        response.data.games.forEach(user => {
+        response.data.users.forEach(user => {
             gamesList.innerHTML += `
                 <div class="game-card">
                     <h3>${user.id}</h3>
@@ -165,7 +165,7 @@ async function getLoans(){
         const loansList = document.getElementById('loans-list');
         loansList.innerHTML = ''; // Clear existing list
 
-        response.data.games.forEach(loan => {
+        response.data.loans.forEach(loan => {
             loansList.innerHTML += `
                 <div class="loan-card">
                     <h3>${loan.id}</h3>
@@ -173,6 +173,7 @@ async function getLoans(){
                     <p>Game ID: ${loan.game_id}</p>
                     <p>Loan date: ${loan.loan_date}</p>
                     <p>Return date: ${loan.return_date}</p>
+                    <button type="button" onclick="deleteLoan(${loan.id})">Delete Loan</button>
                 </div>
             `;
         });
@@ -214,8 +215,18 @@ async function addLoan(){
     }
 }
 
-async function deleteLoan(){
-// *****************************
+async function deleteLoan(loan_id){
+    try{
+        const confirmed = confirm("You sure you want to delete this loan???");
+        if(!confirmed) return;
+        await axios.delete(`http://127.0.0.1:5000/customers/${loan_id}`);
+        alert(response.data.message)
+        getLoans();
+    }
+    catch(error){
+        console.error('Error trying to delete: ', error);
+        alert(error.response.data.error);
+    }
 }
 async function login(){
     const emailInput = document.getElementById('email').value;
@@ -260,6 +271,7 @@ function checkIfLoggedIn(){
 window.onload = ()=>{
     checkIfLoggedIn();
     getCustomers();
+    getLoans();
 }
     // Load all books when page loads
 document.addEventListener('DOMContentLoaded', getGames);

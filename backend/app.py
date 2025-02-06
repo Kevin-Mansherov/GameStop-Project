@@ -233,7 +233,7 @@ def get_loans():
             loans_list.append(loan_data)
         return jsonify({                           # Return JSON response
             'message': 'Loans retrieved successfully',
-            'users': loans_list
+            'loans': loans_list
         }), 200
     except Exception as e:
         return jsonify({
@@ -241,18 +241,22 @@ def get_loans():
             'message': str(e)
         }), 500
 
-@app.route('/loans', methods=['DELETE'])
+@app.route('/loans/<int:loan_id>', methods=['DELETE'])
 def delete_loan(loan_id):
     try:
-        loan = Loan.query.all(loan_id)
+        loan = Loan.query.get(loan_id)
         if not loan:
             return jsonify({
                 'error': 'Loan not found',
                 'message':f'There is not loan with the id {loan_id}'
             }),404
-        db.session.delete(loan)
-        db.session.commit()
-        return jsonify({'message': f'Loan {loan_id} deleted from database.'}),200
+        game = Game.query.get(loan.game_id)
+        if game:
+            game.available+=1
+            db.session.refresh(game)
+            db.session.delete(loan)
+            db.session.commit()
+            return jsonify({'message': f'Loan {loan_id} deleted from database.'}),200
     except Exception as e:
         return jsonify({
             'error': f'Failed to delete loan {loan_id}',
