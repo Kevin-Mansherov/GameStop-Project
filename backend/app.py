@@ -204,13 +204,19 @@ def add_loan():
         id = data['id'],
         customer_id = data['customer_id'],
         game_id = data['game_id'],
-        loan_date = data['loan_date'],
-        return_date = data['return_date']
+        loan_date = datetime.strptime(data['loan_date'], "%Y-%m-%d"),
+        return_date = datetime.strptime(data['return_date'], "%Y-%m-%d"),
     )
-    db.session.add(new_loan)
-    db.session.commit()
-    return jsonify({'message': 'Loan added to database.'}), 201
-
+    game = Game.query.get(data['game_id'])
+    if game:
+        game.available-=1
+        db.session.add(new_loan)
+        db.session.commit()
+        db.session.refresh(game)
+        return jsonify({'message': 'Loan added to database.'}), 201
+    else:
+        return jsonify({'error':'Game not found'}),404
+    
 @app.route('/loans', methods=['GET'])
 def get_loans():
     try:
