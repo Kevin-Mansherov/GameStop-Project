@@ -99,13 +99,16 @@ def edit_game(game_id):
         game.creator = data['creator']
         game.year_published = data['year_published']
         game.type = data['type']
-        game.price = data['type']
+        game.price = data['price']
+        game.available = data['available']
         db.session.commit()
 
         return jsonify({'message': 'Changes saved successfully.'}),201
     except Exception as e:
         return jsonify({'error':str(e)}),404
     
+
+
 
 @app.route('/users', methods=['POST'])
 def add_user():
@@ -148,6 +151,9 @@ def get_users():
             'error': 'Failed to retrieve users',
             'message': str(e)
         }), 500
+
+
+
 
 @app.route('/customers', methods=['POST'])
 def add_customer():
@@ -209,6 +215,24 @@ def delete_customer(customer_id):
             'message': str(e)
         }),500
 
+@app.route('/customers/<int:customer_id>', methods=['PUT'])
+def edit_customer(customer_id):
+    try:
+        data = request.json
+        customer = Customers.query.get(customer_id)
+
+        customer.name = data['name']
+        customer.phone_number = data['phone_number']
+        customer.city = data['city']
+        customer.age = data['age']
+        db.session.commit()
+
+        return jsonify({'message': 'Changes saved successfully.'}),201
+    except Exception as e:
+        return jsonify({'error':str(e)}),404
+
+
+
 @app.route('/loans', methods=['POST'])
 def add_loan():
     data = request.json
@@ -264,16 +288,20 @@ def delete_loan(loan_id):
             }),404
         game = Game.query.get(loan.game_id)
         if game:
-            game.available+=1
-            db.session.refresh(game)
+            game.available+=1           
             db.session.delete(loan)
             db.session.commit()
+            db.session.refresh(game)
             return jsonify({'message': f'Loan {loan_id} deleted from database.'}),200
     except Exception as e:
         return jsonify({
             'error': f'Failed to delete loan {loan_id}',
             'message': str(e)
         }),500
+
+
+
+
 
 @app.route('/login', methods=['POST'])
 def login():

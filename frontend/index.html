@@ -79,15 +79,16 @@
           <input type="text" id="edit-year-published" placeholder="Year Published" />
           <input type="text" id="edit-type" placeholder="Type" />
           <input type="text" id="edit-price" placeholder="Price"/>
+          <input type="text" id="edit-available" placeholder="Available Amount"/>
           <button type="button" onclick="editGame()">Save Changes</button>
         </div>
         <div id="edit-customer" class="hidden">
           <h2>Edit Customer Info</h2>
-          <input type="text" id="customer-id" placeholder="Customer ID" />
-          <input type="text" id="customer-name" placeholder="Name" />
-          <input type="text" id="customer-phone-number" placeholder="Phone Number" />
-          <input type="text" id="customer-city" placeholder="City" />
-          <input type="text" id="customer-age" placeholder="Age" />
+          <input type="hidden" id="Customer-id" />
+          <input type="text" id="edit-name" placeholder="Name" />
+          <input type="text" id="edit-phone-number" placeholder="Phone Number" />
+          <input type="text" id="edit-city" placeholder="City" />
+          <input type="text" id="edit-age" placeholder="Age" />
           <button type="button" onclick="editCustomer()">Save Changes</button>
         </div>
       </div>
