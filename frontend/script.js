@@ -15,7 +15,8 @@ async function getGames() {
                     <p>Price: ${game.price}</p>
                     <p>Available: ${game.available}</p>
                     <button type="button" onclick="deleteGame(${game.id})">Delete Game</button>
-                    <button type="button" onclick="editGame(${game.id})">Edit Game</button>
+                    <button type="button" onclick="moveEditScreen(${game.id},
+                     '${game.title}', '${game.creator}', '${game.year_published}', '${game.type}', '${game.price}')">Edit Game</button>
                 </div>
             `;
         });
@@ -74,11 +75,36 @@ async function deleteGame(game_id) {
         alert(error.response.data.error);
     }
 }
-async function editGame(game_id) {
+async function moveEditScreen(game_id,title,creator,year_published,type,price) {
+    document.getElementById('main-section').classList.add('hidden');
+    document.getElementById('edit-game').classList.remove('hidden');
+
+    document.getElementById('game-id').value = game_id;
+    
+    document.getElementById('edit-title').value = title;
+    document.getElementById('edit-creator').value = creator;
+    document.getElementById('edit-year-published').value = year_published;
+    document.getElementById('edit-type').value = type;
+    document.getElementById('edit-price').value = price;
+}
+async function editGame() {
     try{
         const confirmed = confirm("You sure you want to make this changes?");
         if(!confirmed) return;
-        await axios.put(`http://127.0.0.1:5000/games/${game_id}`);
+
+        const game_id = document.getElementById("Game-id").value;
+        const updatedGame = {
+            title: document.getElementById('edit-title').value,
+            creator: document.getElementById('edit-creator').value,
+            year_published: document.getElementById('edit-year-published').value,
+            type: document.getElementById('edit-type').value,
+            price: document.getElementById('edit-price').value
+        };
+
+
+        const response = await axios.put(`http://127.0.0.1:5000/games/${game_id}`,updatedGame);
+        document.getElementById('main-section').classList.remove('hidden');
+        document.getElementById('edit-game').classList.add('hidden');
         alert(response.data.message)
         getGames();
     }

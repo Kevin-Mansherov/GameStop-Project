@@ -91,21 +91,20 @@ def delete_game(game_id):
 
 @app.route('/games/<int:game_id>', methods=['PUT'])
 def edit_game(game_id):
-    data = request.json
-    game = Game.query.get(game_id)
-    if data['title'] != None:
+    try:
+        data = request.json
+        game = Game.query.get(game_id)
+        
         game.title = data['title']
-    elif data['creator'] != None:
         game.creator = data['creator']
-    elif data['year_published'] != None:
         game.year_published = data['year_published']
-    elif data['type'] != None:
         game.type = data['type']
-    elif data['price'] != None:
-        game.price = data['price']
-    
-    db.session.refresh(game)
-    return jsonify({'message': 'Changes saved successfully.'}),201
+        game.price = data['type']
+        db.session.commit()
+
+        return jsonify({'message': 'Changes saved successfully.'}),201
+    except Exception as e:
+        return jsonify({'error':str(e)}),404
     
 
 @app.route('/users', methods=['POST'])
