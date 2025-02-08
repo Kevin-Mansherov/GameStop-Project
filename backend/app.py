@@ -113,7 +113,6 @@ def edit_game(game_id):
 @app.route('/users', methods=['POST'])
 def add_user():
     data = request.json  # this is parsing the JSON data from the request body
-    print("Received data:", data)
     new_user = User(
         name=data['name'],
         email=data['email'],
@@ -236,6 +235,9 @@ def edit_customer(customer_id):
 @app.route('/loans', methods=['POST'])
 def add_loan():
     data = request.json
+    customer = Customers.query.get(data['customer_id'])
+    if not customer:
+        return jsonify({'error':'Customer is not found.'}),404
     new_loan = Loan(
         id = data['id'],
         customer_id = data['customer_id'],

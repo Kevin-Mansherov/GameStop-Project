@@ -24,7 +24,7 @@ async function getGames() {
         });
     } catch (error) {
         console.error('Error fetching games:', error);
-        alert('Failed to load games');
+        alert(error.response.data.error);
     }
 }
 
@@ -128,7 +128,7 @@ async function getCustomers(){
         response.data.customers.forEach(customer => {
             customersList.innerHTML += `
                 <div class="game-card">
-                    <h3>${customer.id}</h3>
+                    <h3>ID:${customer.id}</h3>
                     <p>Name: ${customer.name}</p>
                     <p>Phone Number: ${customer.phone_number}</p>
                     <p>City: ${customer.city}</p>
@@ -229,7 +229,7 @@ async function getLoans(){
         response.data.loans.forEach(loan => {
             loansList.innerHTML += `
                 <div class="loan-card">
-                    <h3>${loan.id}</h3>
+                    <h3>Loan ID:${loan.id}</h3>
                     <p>Customer ID: ${loan.customer_id}</p>
                     <p>Game ID: ${loan.game_id}</p>
                     <p>Loan date: ${loan.loan_date}</p>
@@ -251,7 +251,7 @@ async function addLoan(){
     const return_date = document.getElementById('loan-return-date').value;
 
     try {
-        await axios.post('http://127.0.0.1:5000/loans', {
+        const response = await axios.post('http://127.0.0.1:5000/loans', {
             id:id,
             customer_id:customer_id,
             game_id:game_id,
@@ -269,10 +269,10 @@ async function addLoan(){
         // Refresh the books list
         getLoans()
         
-        alert('Loan added successfully!');
+        alert(response.data.message);
     } catch (error) {
         console.error('Error adding loan:', error);
-        alert('Failed to add loan');
+        alert(error.response.data.error);
     }
 }
 
@@ -280,7 +280,7 @@ async function deleteLoan(loan_id){
     try{
         const confirmed = confirm("You sure you want to delete this loan???");
         if(!confirmed) return;
-        await axios.delete(`http://127.0.0.1:5000/loans/${loan_id}`);
+        const response = await axios.delete(`http://127.0.0.1:5000/loans/${loan_id}`);
         alert(response.data.message)
         getLoans();
     }
@@ -316,7 +316,7 @@ async function logout(){
     localStorage.removeItem('isLoggedIn');
     document.getElementById("auth-section").classList.remove("hidden");
     document.getElementById("main-section").classList.add("hidden");
-    alert(response.data.message);
+    alert("You are logged out.");
 }
 function checkIfLoggedIn(){
     const isLoggedIn = localStorage.getItem('isLoggedIn');
@@ -330,10 +330,12 @@ function checkIfLoggedIn(){
         document.getElementById("main-section").classList.add("hidden");
     }
 }
-window.onload = ()=>{
-    checkIfLoggedIn();
-    getCustomers();
-    getLoans();
-}
-    // Load all books when page loads
+// window.onload = ()=>{
+//     checkIfLoggedIn();
+//     getCustomers();
+//     getLoans();
+// }
+document.addEventListener('DOMContentLoaded', checkIfLoggedIn);
 document.addEventListener('DOMContentLoaded', getGames);
+document.addEventListener('DOMContentLoaded', getCustomers);
+document.addEventListener('DOMContentLoaded', getLoans);
