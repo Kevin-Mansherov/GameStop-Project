@@ -9,6 +9,7 @@ async function getGames() {
             gamesList.innerHTML += `
                 <div class="game-card">
                     <h3>${game.title}</h3>
+                    <p>ID: ${game.id}</p>
                     <p>Creator: ${game.creator}</p>
                     <p>Year: ${game.year_published}</p>
                     <p>Type: ${game.type}</p>
