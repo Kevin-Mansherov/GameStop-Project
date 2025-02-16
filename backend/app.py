@@ -17,7 +17,7 @@ app.secret_key = "superSecretKey"
 # named 'library.db' in your project directory. The three slashes '///' indicate a
 # relative path from the current directory
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///GameStore.db'
-db.init_app(app)  # initializes the databsewith the flask application
+db.init_app(app)  # initializes the database with the flask application
 
 
 # this is a decorator from the flask module to define a route for for adding a book, supporting POST requests.(check the decorator summary i sent you and also the exercises)
