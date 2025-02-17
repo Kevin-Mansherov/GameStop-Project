@@ -27,6 +27,16 @@ def setup_driver():
     # Initialize Chrome with our settings
     return webdriver.Chrome(service=service, options=chrome_options)
 
+# פונקציה לטיפול בחלונית Alert (אם קיימת)
+def handle_alert(driver):
+    try:
+        WebDriverWait(driver, 3).until(EC.alert_is_present())  # מחכה 3 שניות לבדוק אם יש Alert
+        alert = driver.switch_to.alert  # עובר לחלונית ה-Alert
+        print(f"Alert found: {alert.text}")  # מציג את הטקסט של ה-Alert
+        alert.accept()  # לוחץ על OK (מאשר את ה-Alert)
+        time.sleep(1)  # מחכה שנייה כדי למנוע תקיעות
+    except:
+        print("No alert found")  # אם אין Alert, מדפיס שאין
 
 def interact_with_form():
     driver = setup_driver()  # Create a new browser instance
@@ -57,6 +67,7 @@ def interact_with_form():
         login_button = driver.find_element(By.ID, "login")  # Find submit button
         login_button.click()  # Click the submit button
 
+        handle_alert(driver)
         time.sleep(3)
 
         for index,row in info.iterrows():
@@ -67,8 +78,25 @@ def interact_with_form():
             price = row["price"]
             available = row["available"]
 
-        
+            driver.find_element(By.ID, "game-title").send_keys(title)
+            time.sleep(1) 
+            driver.find_element(By.ID, "game-creator").send_keys(creator)
+            time.sleep(1) 
+            driver.find_element(By.ID, "game-year-published").send_keys(year)
+            time.sleep(1) 
+            driver.find_element(By.ID, "game-type").send_keys(game_type)
+            time.sleep(1) 
+            driver.find_element(By.ID, "game-price").send_keys(price)
+            time.sleep(1) 
+            driver.find_element(By.ID, "amount-to-add").send_keys(available)
+            time.sleep(1) 
 
+            addGame_button = driver.find_element(By.ID,"addGameID")
+            addGame_button.click()
+
+            handle_alert(driver)
+
+            wait = WebDriverWait(driver, 4)
         
 
         # Wait for user input before closing
