@@ -27,18 +27,42 @@ def setup_driver():
     # Initialize Chrome with our settings
     return webdriver.Chrome(service=service, options=chrome_options)
 
-# פונקציה לטיפול בחלונית Alert (אם קיימת)
+
 def handle_alert(driver):
     try:
-        WebDriverWait(driver, 3).until(EC.alert_is_present())  # מחכה 3 שניות לבדוק אם יש Alert
-        alert = driver.switch_to.alert  # עובר לחלונית ה-Alert
-        print(f"Alert found: {alert.text}")  # מציג את הטקסט של ה-Alert
-        alert.accept()  # לוחץ על OK (מאשר את ה-Alert)
-        time.sleep(1)  # מחכה שנייה כדי למנוע תקיעות
+        WebDriverWait(driver, 3).until(EC.alert_is_present())
+        alert = driver.switch_to.alert  
+        print(f"Alert found: {alert.text}") 
+        alert.accept() 
+        time.sleep(1)  
     except:
-        print("No alert found")  # אם אין Alert, מדפיס שאין
+        print("No alert found") 
 
-def interact_with_form():
+def GetGamesFromStream():
+    driver = setup_driver()
+    try:
+        driver.get("https://store.steampowered.com/")
+        
+        time.sleep(10)
+
+        games = driver.find_elements(By.CSS_SELECTOR, "a.tab_item")
+
+        for game in games[:5]:
+            title = game.find_element(By.CSS_SELECTOR,".tab_item_name").text
+            creator = "steam"
+            year = game.find_element(By.CSS_SELECTOR,".release_date").text
+            type = game.find_element(By.CSS_SELECTOR,".tab_item_top_tags").text
+            price = game.find_element(By.CSS_SELECTOR,".discount_final_price").text
+            available = 1
+            print(f"title: {title}, creator: {creator}, year: {year},type:{type},price:{price}, available:{available}")
+            print("\n")
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+    finally:
+        driver.quit()
+
+def AddGamesToWeb():
     driver = setup_driver()  # Create a new browser instance
 
     try:
@@ -109,4 +133,5 @@ def interact_with_form():
 # Script entry point
 # Only run if this file is run directly (not imported)
 if __name__ == "__main__":
-    interact_with_form()  # Start the form interaction process
+    GetGamesFromStream()
+    # AddGamesToWeb()  # Start the form interaction process
