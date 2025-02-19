@@ -43,7 +43,6 @@ def handle_alert(driver):
 def GetGamesFromStream():
     driver = setup_driver()
     try:
-        sheetsURL = "https://docs.google.com/spreadsheets/d/1iv1SNMtKWdvu9vYxucryxMo_RC7rSph4h4_fheBe-Is/export?format=csv"
         driver.get("https://store.steampowered.com/")
         
         time.sleep(10)
@@ -51,7 +50,7 @@ def GetGamesFromStream():
         games = driver.find_elements(By.CSS_SELECTOR, "a.tab_item")
         games_list = []
 
-        for game in games[:5]:
+        for game in games[:6]:
             title = game.find_element(By.CSS_SELECTOR,".tab_item_name").text
             creator = "steam"
             year = game.find_element(By.CSS_SELECTOR,".release_date").text
@@ -64,12 +63,8 @@ def GetGamesFromStream():
 
         data_frame = pd.DataFrame(games_list,columns=["title","creator","year","type","price","available"])
 
-        csv_data = data_frame.to_csv(index=False)
-        response = requests.put(sheetsURL,data=csv_data,headers={"Content-Type": "text/csv"})
-        if response.status_code == 200:
-            print("Successfully updated google sheets.\n")
-        else:
-            print(f"Failed to update: {response.text}")
+        data_frame.to_csv("games_data.csv",index=False,encoding="utf-8-sig")
+        print("\nData saved successfully.\n")
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
@@ -80,7 +75,7 @@ def AddGamesToWeb():
     driver = setup_driver()  # Create a new browser instance
 
     try:
-        url = "https://docs.google.com/spreadsheets/d/1iv1SNMtKWdvu9vYxucryxMo_RC7rSph4h4_fheBe-Is/export?format=csv"
+        url = "C:/Users/kevin/OneDrive/Documents/.github/GameStop-Project/backend/selenium/games_data.csv"
         info = pd.read_csv(url)
 
         # Open the website
@@ -111,7 +106,7 @@ def AddGamesToWeb():
         for index,row in info.iterrows():
             title = row["title"]
             creator = row["creator"]
-            year = row["year_published"]
+            year = row["year"]
             game_type = row["type"]
             price = row["price"]
             available = row["available"]
@@ -147,5 +142,5 @@ def AddGamesToWeb():
 # Script entry point
 # Only run if this file is run directly (not imported)
 if __name__ == "__main__":
-    GetGamesFromStream()
-    # AddGamesToWeb()  # Start the form interaction process
+    # GetGamesFromStream()
+    AddGamesToWeb()  # Start the form interaction process
