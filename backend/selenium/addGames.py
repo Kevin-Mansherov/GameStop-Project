@@ -20,6 +20,8 @@ import time  # For adding delays between actions
 
 # Function to set up the Chrome WebDriver
 import pandas as pd
+import re
+import requests
 
 def setup_driver():
     chrome_options = Options()  # Create a new Options object for Chrome
@@ -41,11 +43,13 @@ def handle_alert(driver):
 def GetGamesFromStream():
     driver = setup_driver()
     try:
+        sheetsURL = "https://docs.google.com/spreadsheets/d/1iv1SNMtKWdvu9vYxucryxMo_RC7rSph4h4_fheBe-Is/export?format=csv"
         driver.get("https://store.steampowered.com/")
         
         time.sleep(10)
 
         games = driver.find_elements(By.CSS_SELECTOR, "a.tab_item")
+        games_list = []
 
         for game in games[:5]:
             title = game.find_element(By.CSS_SELECTOR,".tab_item_name").text
@@ -54,8 +58,18 @@ def GetGamesFromStream():
             type = game.find_element(By.CSS_SELECTOR,".tab_item_top_tags").text
             price = game.find_element(By.CSS_SELECTOR,".discount_final_price").text
             available = 1
-            print(f"title: {title}, creator: {creator}, year: {year},type:{type},price:{price}, available:{available}")
-            print("\n")
+            price = re.sub(r"[^\d.]", "", price)
+
+            games_list.append([title,creator,year,type,price,available])
+
+        data_frame = pd.DataFrame(games_list,columns=["title","creator","year","type","price","available"])
+
+        csv_data = data_frame.to_csv(index=False)
+        response = requests.put(sheetsURL,data=csv_data,headers={"Content-Type": "text/csv"})
+        if response.status_code == 200:
+            print("Successfully updated google sheets.\n")
+        else:
+            print(f"Failed to update: {response.text}")
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
