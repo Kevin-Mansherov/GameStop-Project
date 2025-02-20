@@ -197,6 +197,7 @@ async function moveEditCustomerScreen(customer_id,name,phone_number,city,age) {
     document.getElementById('edit-city').value = city;
     document.getElementById('edit-age').value = age;
 }
+
 async function editCustomer() {
     try{
         const confirmed = confirm('You sure you want to make this changes??');
