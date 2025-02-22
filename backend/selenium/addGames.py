@@ -142,5 +142,5 @@ def AddGamesToWeb():
 # Script entry point
 # Only run if this file is run directly (not imported)
 if __name__ == "__main__":
-    # GetGamesFromStream()
+    GetGamesFromStream()
     AddGamesToWeb()  # Start the form interaction process
