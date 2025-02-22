@@ -1,0 +1,72 @@
+/* General Reset for Edit Pages */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  /* Edit Pages */
+  .edit-page {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 50px auto;
+  }
+  
+  .edit-page h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 28px;
+  }
+  
+  .edit-page input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+  }
+  
+  .edit-page input:focus {
+    outline: none;
+    border-color: #4CAF50;
+  }
+  
+  .edit-page button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-page button:hover {
+    background-color: #45a049;
+  }
+  
+  .edit-page .back-button {
+    background-color: #007bff;
+  }
+  
+  .edit-page .back-button:hover {
+    background-color: #0056b3;
+  }

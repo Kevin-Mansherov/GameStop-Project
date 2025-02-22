@@ -1,96 +1,98 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Game Store Management System</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div id="auth-section">
-        <h2>Authentication</h2>
-        <div id="login-form">
-          <input type="text" id="email" placeholder="Email" />
-          <input type="password" id="password" placeholder="Password" />
-          <button id = "login" onclick="login()">Login</button>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Game Store Management System</title>
+      <link rel="stylesheet" href="css/main.css" />
+    </head>
+    <body>
+      <div class="container">
+        <div id="auth-section">
+          <h2>Authentication</h2>
+          <div id="login-form">
+            <input type="text" id="email" placeholder="Email" />
+            <input type="password" id="password" placeholder="Password" />
+            <button id = "login" onclick="login()">Login</button>
+          </div>
         </div>
-      </div>
-      
-      <div id="main-section" class="hidden">
-        <div class="header">
-          <h1>Game Store Management System</h1>
-          <button onclick="logout()">Logout</button>
-        </div>
-
-        <div class="games-section"> <!--need to change it to general section-->
-          <h2>Add New Game</h2>
-          <div class="form-group">
-            <input type="text" id="game-title" placeholder="Title" />
-            <input type="text" id="game-creator" placeholder="Creator" />
-            <input type="text" id="game-year-published" placeholder="Year Published" />
-            <input type="text" id="game-type" placeholder="Type" />
-            <input type="text" id="game-price" placeholder="Price"/>
-            <input type="text" id="amount-to-add" placeholder="Amount of games"/>
-            <button type="button" id = "addGameID" onclick="addGame()">Add Game</button>
+        
+        <div id="main-section" class="hidden">
+          <div class="header">
+            <h1>Game Store Management System</h1>
+            <button onclick="logout()">Logout</button>
           </div>
 
-          <h2>All Games</h2>
-          <div id="games-list" class="games-grid"></div>
-        </div>
+          <div class="games-section"> <!--need to change it to general section-->
+            <h2>Add New Game</h2>
+            <div class="form-group">
+              <input type="text" id="game-title" placeholder="Title" />
+              <input type="text" id="game-creator" placeholder="Creator" />
+              <input type="text" id="game-year-published" placeholder="Year Published" />
+              <input type="text" id="game-type" placeholder="Type" />
+              <input type="text" id="game-price" placeholder="Price"/>
+              <input type="text" id="amount-to-add" placeholder="Amount of games"/>
+              <button type="button" id = "addGameID" onclick="addGame()">Add Game</button>
+            </div>
 
-        <div class="games-section"> <!-- need to change it to customers-section -->
-          <h2>Add new customer</h2>
-          <div class="form-group">
-            <input type="text" id="customer-id" placeholder="Customer ID" />
-            <input type="text" id="customer-name" placeholder="Name" />
-            <input type="text" id="customer-phone-number" placeholder="Phone Number" />
-            <input type="text" id="customer-city" placeholder="City" />
-            <input type="text" id="customer-age" placeholder="Age" />
-            <button onclick="addCustomer()">Add Customer</button>
+            <h2>All Games</h2>
+            <div id="games-list" class="games-grid"></div>
           </div>
-          <h2>Customers List</h2>
-          <div id="customers-list" class="games-grid"></div>
-        </div>
 
-        <div class="games-section"><!-- need to change it to loans-section -->
-          <h2>Manage Loans</h2>
-          <div class="form-group">
-            <input type="text" id="loan-id" placeholder="Loan ID" />
-            <input type="text" id="loan-customer-id" placeholder="Customer ID" />
-            <input type="text" id="loan-game-id" placeholder="Game ID" />
-            <input type="text" id="loan-loan-date" placeholder="Loan Date" />
-            <input type="text" id="loan-return-date" placeholder="Return Date" />
-            <button onclick="addLoan()">Add Loan</button>
+          <div class="games-section"> <!-- need to change it to customers-section -->
+            <h2>Add new customer</h2>
+            <div class="form-group">
+              <input type="text" id="customer-id" placeholder="Customer ID" />
+              <input type="text" id="customer-name" placeholder="Name" />
+              <input type="text" id="customer-phone-number" placeholder="Phone Number" />
+              <input type="text" id="customer-city" placeholder="City" />
+              <input type="text" id="customer-age" placeholder="Age" />
+              <button onclick="addCustomer()">Add Customer</button>
+            </div>
+            <h2>Customers List</h2>
+            <div id="customers-list" class="games-grid"></div>
           </div>
-          <h2>Loans</h2>
-          <div id="loans-list" class="games-grid"></div>
+
+          <div class="games-section"><!-- need to change it to loans-section -->
+            <h2>Manage Loans</h2>
+            <div class="form-group">
+              <input type="text" id="loan-id" placeholder="Loan ID" />
+              <input type="text" id="loan-customer-id" placeholder="Customer ID" />
+              <input type="text" id="loan-game-id" placeholder="Game ID" />
+              <input type="text" id="loan-loan-date" placeholder="Loan Date" />
+              <input type="text" id="loan-return-date" placeholder="Return Date" />
+              <button onclick="addLoan()">Add Loan</button>
+            </div>
+            <h2>Loans</h2>
+            <div id="loans-list" class="games-grid"></div>
+          </div>
         </div>
+        <!--
+        <div id="edit-section">
+          <div id="edit-game" class="hidden">
+            <h2>Edit Game</h2>
+            <input type="hidden" id="Game-id"/>
+            <input type="text" id="edit-title" placeholder="Title" />
+            <input type="text" id="edit-creator" placeholder="Creator" />
+            <input type="text" id="edit-year-published" placeholder="Year Published" />
+            <input type="text" id="edit-type" placeholder="Type" />
+            <input type="text" id="edit-price" placeholder="Price"/>
+            <input type="text" id="edit-available" placeholder="Available Amount"/>
+            <button type="button" onclick="editGame()">Save Changes</button>
+          </div>
+          <div id="edit-customer" class="hidden">
+            <h2>Edit Customer Info</h2>
+            <input type="hidden" id="Customer-id" />
+            <input type="text" id="edit-name" placeholder="Name" />
+            <input type="text" id="edit-phone-number" placeholder="Phone Number" />
+            <input type="text" id="edit-city" placeholder="City" />
+            <input type="text" id="edit-age" placeholder="Age" />
+            <button type="button" onclick="editCustomer()">Save Changes</button>
+          </div>
+        </div>
+      -->
       </div>
-      <div id="edit-section"><!--make a css style to this-->
-        <div id="edit-game" class="hidden">
-          <h2>Edit Game</h2>
-          <input type="hidden" id="Game-id"/>
-          <input type="text" id="edit-title" placeholder="Title" />
-          <input type="text" id="edit-creator" placeholder="Creator" />
-          <input type="text" id="edit-year-published" placeholder="Year Published" />
-          <input type="text" id="edit-type" placeholder="Type" />
-          <input type="text" id="edit-price" placeholder="Price"/>
-          <input type="text" id="edit-available" placeholder="Available Amount"/>
-          <button type="button" onclick="editGame()">Save Changes</button>
-        </div>
-        <div id="edit-customer" class="hidden">
-          <h2>Edit Customer Info</h2>
-          <input type="hidden" id="Customer-id" />
-          <input type="text" id="edit-name" placeholder="Name" />
-          <input type="text" id="edit-phone-number" placeholder="Phone Number" />
-          <input type="text" id="edit-city" placeholder="City" />
-          <input type="text" id="edit-age" placeholder="Age" />
-          <button type="button" onclick="editCustomer()">Save Changes</button>
-        </div>
-      </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
-    <script src="script.js"></script>
-  </body>
-</html>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="js/main.js"></script>
+    </body>
+  </html>

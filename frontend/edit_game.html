@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Game</title>
+    <link rel="stylesheet" href="css/edit.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="edit-page">
+            <h2>Edit Game</h2>
+            <input type="hidden" id="Game-id"/>
+            <input type="text" id="edit-title" placeholder="Title" />
+            <input type="text" id="edit-creator" placeholder="Creator" />
+            <input type="text" id="edit-year-published" placeholder="Year Published" />
+            <input type="text" id="edit-type" placeholder="Type" />
+            <input type="text" id="edit-price" placeholder="Price"/>
+            <input type="text" id="edit-available" placeholder="Available Amount"/>
+            <button type="button" onclick="editGame()">Save Changes</button>
+            <button type="button" onclick="window.location.href='index.html'">Main Page</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/edit_game.js"></script>
+</body>
+</html>

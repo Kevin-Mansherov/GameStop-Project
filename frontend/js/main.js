@@ -16,9 +16,8 @@ async function getGames() {
                     <p>Price: ${game.price}</p>
                     <p>Available: ${game.available}</p>
                     <button type="button" onclick="deleteGame(${game.id})">Delete Game</button>
-                    <button type="button" onclick="moveEditGameScreen(${game.id},
-                     '${game.title}', '${game.creator}', '${game.year_published}', '${game.type}',
-                      '${game.price}','${game.available}')">Edit Game</button>
+                    <button type="button" 
+                    onclick="window.location.href='edit_game.html?id=${game.id}&title=${encodeURIComponent(game.title)}&creator=${encodeURIComponent(game.creator)}&year=${encodeURIComponent(game.year_published)}&type=${encodeURIComponent(game.type)}&price=${game.price}&available=${game.available}'">Edit Game</button>
                 </div>
             `;
         });
@@ -77,46 +76,46 @@ async function deleteGame(game_id) {
         alert(error.response.data.error);
     }
 }
-async function moveEditGameScreen(game_id,title,creator,year_published,type,price,available) {
-    document.getElementById('main-section').classList.add('hidden');
-    document.getElementById('edit-game').classList.remove('hidden');
+// async function moveEditGameScreen(game_id,title,creator,year_published,type,price,available) {
+//     document.getElementById('main-section').classList.add('hidden');
+//     document.getElementById('edit-game').classList.remove('hidden');
 
-    document.getElementById('Game-id').value = game_id;
+//     document.getElementById('Game-id').value = game_id;
     
-    document.getElementById('edit-title').value = title;
-    document.getElementById('edit-creator').value = creator;
-    document.getElementById('edit-year-published').value = year_published;
-    document.getElementById('edit-type').value = type;
-    document.getElementById('edit-price').value = price;
-    document.getElementById('edit-available').value = available;
-}
-async function editGame() {
-    try{
-        const confirmed = confirm("You sure you want to make this changes?");
-        if(!confirmed) return;
+//     document.getElementById('edit-title').value = title;
+//     document.getElementById('edit-creator').value = creator;
+//     document.getElementById('edit-year-published').value = year_published;
+//     document.getElementById('edit-type').value = type;
+//     document.getElementById('edit-price').value = price;
+//     document.getElementById('edit-available').value = available;
+// }
+// async function editGame() {
+//     try{
+//         const confirmed = confirm("You sure you want to make this changes?");
+//         if(!confirmed) return;
 
-        const game_id = document.getElementById("Game-id").value;
-        const updatedGame = {
-            title: document.getElementById('edit-title').value,
-            creator: document.getElementById('edit-creator').value,
-            year_published: document.getElementById('edit-year-published').value,
-            type: document.getElementById('edit-type').value,
-            price: document.getElementById('edit-price').value,
-            available:document.getElementById('edit-available').value
-        };
+//         const game_id = document.getElementById("Game-id").value;
+//         const updatedGame = {
+//             title: document.getElementById('edit-title').value,
+//             creator: document.getElementById('edit-creator').value,
+//             year_published: document.getElementById('edit-year-published').value,
+//             type: document.getElementById('edit-type').value,
+//             price: document.getElementById('edit-price').value,
+//             available:document.getElementById('edit-available').value
+//         };
 
 
-        const response = await axios.put(`http://127.0.0.1:5000/games/${game_id}`,updatedGame);
-        document.getElementById('main-section').classList.remove('hidden');
-        document.getElementById('edit-game').classList.add('hidden');
-        alert(response.data.message)
-        getGames();
-    }
-    catch(error){
-        console.error('Error trying to edit: ', error);
-        alert(error.response.data.error);
-    }
-}
+//         const response = await axios.put(`http://127.0.0.1:5000/games/${game_id}`,updatedGame);
+//         document.getElementById('main-section').classList.remove('hidden');
+//         document.getElementById('edit-game').classList.add('hidden');
+//         alert(response.data.message)
+//         getGames();
+//     }
+//     catch(error){
+//         console.error('Error trying to edit: ', error);
+//         alert(error.response.data.error);
+//     }
+// }
 
 //customer-section
 async function getCustomers(){
@@ -134,8 +133,7 @@ async function getCustomers(){
                     <p>City: ${customer.city}</p>
                     <p>Age: ${customer.age}</p>
                     <button type="button" onclick="deleteCustomer(${customer.id})">Delete Customer</button>
-                    <button type="button" onclick="moveEditCustomerScreen(${customer.id},
-                    '${customer.name}','${customer.phone_number}','${customer.city}','${customer.age}')">Edit Customer Info</button>
+                    <button type="button" onclick="window.location.href='edit_customer.html?id=${customer.id}&name=${encodeURIComponent(customer.name)}&phone=${encodeURIComponent(customer.phone_number)}&city=${encodeURIComponent(customer.city)}&age=${customer.age}'">Edit Customer Info</button>
                 </div>
             `;
         });
@@ -186,40 +184,40 @@ async function deleteCustomer(customer_id){
         alert(error.response.data.error);
     }
 }
-async function moveEditCustomerScreen(customer_id,name,phone_number,city,age) {
-    document.getElementById('main-section').classList.add('hidden');
-    document.getElementById('edit-customer').classList.remove('hidden');
+// async function moveEditCustomerScreen(customer_id,name,phone_number,city,age) {
+//     document.getElementById('main-section').classList.add('hidden');
+//     document.getElementById('edit-customer').classList.remove('hidden');
 
-    document.getElementById('Customer-id').value = customer_id;
+//     document.getElementById('Customer-id').value = customer_id;
 
-    document.getElementById('edit-name').value = name;
-    document.getElementById('edit-phone-number').value = phone_number;
-    document.getElementById('edit-city').value = city;
-    document.getElementById('edit-age').value = age;
-}
+//     document.getElementById('edit-name').value = name;
+//     document.getElementById('edit-phone-number').value = phone_number;
+//     document.getElementById('edit-city').value = city;
+//     document.getElementById('edit-age').value = age;
+// }
 
-async function editCustomer() {
-    try{
-        const confirmed = confirm('You sure you want to make this changes??');
-        if(!confirmed) return;
-        const customer_id = document.getElementById('Customer-id').value;
-        const updatedCustomer={
-            name:document.getElementById('edit-name').value,
-            phone_number:document.getElementById('edit-phone-number').value,
-            city:document.getElementById('edit-city').value,
-            age:document.getElementById('edit-age').value
-        };
-        const response = await axios.put(`http://127.0.0.1:5000/customers/${customer_id}`,updatedCustomer);
-        document.getElementById('main-section').classList.remove('hidden');
-        document.getElementById('edit-customer').classList.add('hidden');
-        alert(response.data.message)
-        getGames();
-    }
-    catch(error){
-        console.error('Error trying to edit: ', error);
-        alert(error.response.data.error);
-    }
-}
+// async function editCustomer() {
+//     try{
+//         const confirmed = confirm('You sure you want to make this changes??');
+//         if(!confirmed) return;
+//         const customer_id = document.getElementById('Customer-id').value;
+//         const updatedCustomer={
+//             name:document.getElementById('edit-name').value,
+//             phone_number:document.getElementById('edit-phone-number').value,
+//             city:document.getElementById('edit-city').value,
+//             age:document.getElementById('edit-age').value
+//         };
+//         const response = await axios.put(`http://127.0.0.1:5000/customers/${customer_id}`,updatedCustomer);
+//         document.getElementById('main-section').classList.remove('hidden');
+//         document.getElementById('edit-customer').classList.add('hidden');
+//         alert(response.data.message)
+//         getGames();
+//     }
+//     catch(error){
+//         console.error('Error trying to edit: ', error);
+//         alert(error.response.data.error);
+//     }
+// }
 //loan-section
 async function getLoans(){
     try {

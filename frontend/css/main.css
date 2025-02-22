@@ -83,8 +83,10 @@ body {
   background-color: #d63b49;
 }
 
-/* Games Section */
-.games-section {
+/* Games, Customers, and Loans Sections */
+.games-section,
+.customers-section,
+.loans-section {
   margin-top: 20px;
   background-color: #fff;
   padding: 20px;
@@ -92,7 +94,9 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.games-section h2 {
+.games-section h2,
+.customers-section h2,
+.loans-section h2 {
   margin-top: 0;
 }
 
@@ -120,7 +124,7 @@ body {
   background-color: #218838;
 }
 
-/* Games List */
+/* Games List (also applies to Customers and Loans) */
 .games-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -155,58 +159,4 @@ body {
 
 .games-grid div button:hover {
   background-color: #0056b3;
-}
-
-
-#edit-game,#edit-customer {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 400px;
-  background-color: white;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  flex-direction: column;
-  gap: 20px;
-}
-
-#edit-game h2,#edit-customer h2 {
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-  font-size: 24px;
-}
-
-#edit-game input,#edit-customer input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 16px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease;
-}
-
-#edit-game input:focus,#edit-customer input:focus {
-  outline: none;
-  border-color: #4CAF50;
-}
-
-#edit-game button,#edit-customer button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-  margin-top: 20px;
-}
-
-#edit-game button:hover,#edit-customer button:hover {
-  background-color: #45a049;
 }
